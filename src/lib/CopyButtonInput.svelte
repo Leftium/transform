@@ -5,8 +5,12 @@
 	export let label: string = ''
 	export let value: string = ''
 
-	const handleClickButton = (event: MouseEvent) => {
+	const handleClickButton = () => {
 		navigator.clipboard.writeText(value)
+	}
+
+	const handleFocusInput = (event: FocusEvent) => {
+		;(<HTMLInputElement>event.target).select()
 	}
 </script>
 
@@ -16,7 +20,7 @@
 		{label}
 	</button>
 
-	<input type="text" {value} />
+	<input type="text" {value} on:focus={handleFocusInput} />
 </div>
 
 <style>
