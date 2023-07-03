@@ -20,7 +20,7 @@
 		{label}
 	</button>
 
-	<input type="text" {value} on:focus={handleFocusInput} />
+	<input type="text" {value} on:focus={handleFocusInput} on:click={handleFocusInput} readonly />
 </div>
 
 <style>
