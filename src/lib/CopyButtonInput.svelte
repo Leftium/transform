@@ -22,7 +22,7 @@
 		<IconCopyToClipboard style="vertical-align: -0.225em" />
 		{label}
 	</button>
-	<div class="copied" hidden={copied}>Copied!</div>
+	<div class="copied" hidden={!copied}>Copied!</div>
 	<input type="text" {value} on:focus={handleFocusInput} />
 </div>
 

@@ -104,7 +104,7 @@
 			bind:this={btcToSatInput}
 			label="BTC&#8680;SAT"
 			value={(parsedQuery.value * 100_000_000).toLocaleString()}
-			copied={copiedInput == btcToSatInput}
+			copied={copiedInput === btcToSatInput}
 		/>
 	</div>
 	<div>
@@ -112,7 +112,7 @@
 			bind:this={usdToSatInput}
 			label="USD&#8680;SAT"
 			value={(parsedQuery.value * data.satsPerUsd).toLocaleString()}
-			copied={copiedInput == usdToSatInput}
+			copied={copiedInput === usdToSatInput}
 		/>
 	</div>
 	<div>
@@ -120,7 +120,7 @@
 			bind:this={krwToSatInput}
 			label="KRW&#8680;SAT"
 			value={(parsedQuery.value * data.satsPerKrw).toLocaleString()}
-			copied={copiedInput == krwToSatInput}
+			copied={copiedInput === krwToSatInput}
 		/>
 	</div>
 </main>
