@@ -1,7 +1,7 @@
 <svelte:options accessors={true} />
 
 <script lang="ts">
-	import 'iconify-icon'
+	import IconCopyToClipboard from '~icons/clarity/copy-to-clipboard-line'
 
 	// Component props:
 	export let label: string = ''
@@ -19,16 +19,16 @@
 
 <div role="group">
 	<button on:click={handleClickButton}>
-		<iconify-icon icon="clarity:copy-to-clipboard-line" inline />
+		<IconCopyToClipboard style="vertical-align: -0.225em" />
 		{label}
 	</button>
-	<div class="copied" hidden={!copied}>Copied!</div>
+	<div class="copied" hidden={copied}>Copied!</div>
 	<input type="text" {value} on:focus={handleFocusInput} />
 </div>
 
 <style>
 	button {
-		min-width: 10em;
+		min-width: 11em;
 	}
 
 	div[role='group'] {
