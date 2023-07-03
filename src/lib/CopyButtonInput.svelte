@@ -5,12 +5,12 @@
 	export let label: string = ''
 	export let value: string = ''
 
-	const handleClickButton = () => {
+	function handleClickButton() {
 		navigator.clipboard.writeText(value)
 	}
 
-	const handleFocusInput = (event: FocusEvent) => {
-		;(<HTMLInputElement>event.target).select()
+	function handleFocusInput(this: HTMLInputElement) {
+		this.select()
 	}
 </script>
 
