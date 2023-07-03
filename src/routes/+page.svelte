@@ -35,6 +35,10 @@
 
 	function nullHandler() {}
 
+	function handleFocus(this: HTMLInputElement) {
+		this.select()
+	}
+
 	function handlePaste(event: ClipboardEvent) {
 		const data = event.clipboardData?.getData('text')
 
@@ -56,6 +60,7 @@
 			bind:this={inputQuery}
 			bind:value={query}
 			on:paste|preventDefault={nullHandler}
+			on:focus={handleFocus}
 		/>
 	</div>
 
