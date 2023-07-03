@@ -4,10 +4,18 @@
 	// Component props:
 	export let label: string = ''
 	export let value: string = ''
+
+	const handleClickButton = (event: MouseEvent) => {
+		navigator.clipboard.writeText(value)
+	}
 </script>
 
 <div role="group">
-	<button><iconify-icon icon="clarity:copy-to-clipboard-line" inline /> {label}</button>
+	<button on:click={handleClickButton}>
+		<iconify-icon icon="clarity:copy-to-clipboard-line" inline />
+		{label}
+	</button>
+
 	<input type="text" {value} />
 </div>
 
