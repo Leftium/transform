@@ -1,6 +1,8 @@
 <script lang="ts">
 	import '../app.scss'
 
+	import CopyButtonInput from '$lib/CopyButtonInput.svelte'
+
 	// From load():
 	export let data
 
@@ -41,9 +43,24 @@
 
 	<hr />
 
-	<div>BTC&#8680;SAT: {(parsedQuery.value * 100_000_000).toLocaleString()}</div>
-	<div>USD&#8680;SAT: {(parsedQuery.value * data.satsPerUsd).toLocaleString()}</div>
-	<div>KRW&#8680;SAT: {(parsedQuery.value * data.satsPerKrw).toLocaleString()}</div>
+	<div>
+		<CopyButtonInput
+			label="BTC&#8680;SAT"
+			value={(parsedQuery.value * 100_000_000).toLocaleString()}
+		/>
+	</div>
+	<div>
+		<CopyButtonInput
+			label="USD&#8680;SAT"
+			value={(parsedQuery.value * data.satsPerUsd).toLocaleString()}
+		/>
+	</div>
+	<div>
+		<CopyButtonInput
+			label="KRW&#8680;SAT"
+			value={(parsedQuery.value * data.satsPerKrw).toLocaleString()}
+		/>
+	</div>
 </main>
 
 <style>
