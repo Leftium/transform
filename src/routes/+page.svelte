@@ -7,6 +7,7 @@
 	export let data
 
 	// Bindings:
+	let inputQuery: HTMLInputElement
 	let query = ''
 
 	const parseQuery = (q: string) => {
@@ -32,11 +33,31 @@
 		}
 	}
 
+	function nullHandler() {}
+
+	function handlePaste(event: ClipboardEvent) {
+		const data = event.clipboardData?.getData('text')
+
+		if (data) {
+			inputQuery.value = data
+			parsedQuery = parseQuery(data)
+		}
+	}
+
 	$: parsedQuery = parseQuery(query)
 </script>
 
+<svelte:body on:paste={handlePaste} />
+
 <main class="container">
-	<div><input type="text" bind:value={query} /></div>
+	<div>
+		<input
+			type="text"
+			bind:this={inputQuery}
+			bind:value={query}
+			on:paste|preventDefault={nullHandler}
+		/>
+	</div>
 
 	<div><b>value:</b> {parsedQuery.value}</div>
 	<div><b>unit:</b> {parsedQuery.unit}</div>
