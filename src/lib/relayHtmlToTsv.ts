@@ -115,7 +115,7 @@ export const relayHtmlToTsv = (html: string) => {
 		const updated = ccAccount
 			.find('p:last')
 			.text()
-			.replaceAll(/\n|(about )|( ago)/gi, '')
+			.replaceAll(/\n|(about )|(less than )|( ago)/gi, '')
 			.replace(/\s+/g, ' ')
 			.trim()
 
