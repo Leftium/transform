@@ -4,15 +4,15 @@ import * as cheerio from 'cheerio'
 const COLUMN_MAP: Record<string, { bank: string; column: string }> = {
 	'Investor Checking ***7195': {
 		bank: 'Charles Schwab',
-		column: 'N',
+		column: 'O',
 	},
 	'Checking ***1117': {
 		bank: 'Citibank',
-		column: 'O',
+		column: 'P',
 	},
 	'Citi® Accelerate Savings ***6821': {
 		bank: 'Citibank',
-		column: 'P',
+		column: 'Q',
 	},
 	PayPal: {
 		bank: 'Bank',
