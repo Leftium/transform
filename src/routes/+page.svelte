@@ -50,6 +50,7 @@
 	}
 
 	async function handlePaste(event: ClipboardEvent) {
+		copiedInput = null
 		const clipboardText = event.clipboardData?.getData('text')
 
 		if (clipboardText) {
