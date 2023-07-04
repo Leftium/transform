@@ -1,11 +1,9 @@
 <script lang="ts">
 	import '../app.scss'
 
-	import * as cheerio from 'cheerio'
-	import * as _ from 'lodash'
-
 	import CopyButtonInput from '$lib/CopyButtonInput.svelte'
 	import { tick } from 'svelte'
+	import { relayHtmlToTsv } from '$lib/relayHtmlToTsv'
 
 	// From load():
 	export let data
@@ -17,30 +15,6 @@
 	let usdToSatInput: CopyButtonInput
 	let krwToSatInput: CopyButtonInput
 	let copiedInput: CopyButtonInput | null = null
-
-	const cc = cheerio.load(data.sample)
-
-	cc('path').remove()
-	cc('p[data-testid="credit-card-tracker-progress-message"]').remove()
-
-	const ccAccounts = cc('li:has([data-mjs="accounts-account"])')
-
-	const accounts = _.map(ccAccounts, (account: any) => {
-		const ccAccount = cc(account)
-		let bank = ccAccount.find('title').text().replace('Institution icon ', '')
-		let title = ccAccount.find('h3:first').text().trim()
-		let balance = ccAccount.find('h3:last').text().trim()
-		let type = ccAccount.find('p:first').text().trim()
-		let updated = ccAccount.find('p:last').text().trim()
-
-		return {
-			bank,
-			title,
-			balance,
-			type,
-			updated,
-		}
-	})
 
 	const parseQuery = (q: string) => {
 		const query = q.toLowerCase() // Normalize query.
@@ -76,27 +50,32 @@
 	}
 
 	async function handlePaste(event: ClipboardEvent) {
-		const data = event.clipboardData?.getData('text')
+		const clipboardText = event.clipboardData?.getData('text')
 
-		if (data) {
-			inputQuery.value = data
-			parsedQuery = parseQuery(data)
+		if (clipboardText) {
+			let text = relayHtmlToTsv(clipboardText)
+			if (text) {
+				inputQuery.value = 'TSV copied to clipboard!'
+				parsedQuery = parseQuery(inputQuery.value)
+			} else {
+				inputQuery.value = clipboardText
+				parsedQuery = parseQuery(clipboardText)
 
-			await tick()
-			let text = ''
-			switch (parsedQuery.unit) {
-				case 'btc':
-					text = btcToSatInput.value || ''
-					copiedInput = btcToSatInput
-					break
-				case 'usd':
-					text = usdToSatInput.value || ''
-					copiedInput = usdToSatInput
-					break
-				case 'krw':
-					text = krwToSatInput.value || ''
-					copiedInput = krwToSatInput
-					break
+				await tick()
+				switch (parsedQuery.unit) {
+					case 'btc':
+						text = btcToSatInput.value || ''
+						copiedInput = btcToSatInput
+						break
+					case 'usd':
+						text = usdToSatInput.value || ''
+						copiedInput = usdToSatInput
+						break
+					case 'krw':
+						text = krwToSatInput.value || ''
+						copiedInput = krwToSatInput
+						break
+				}
 			}
 			if (text) {
 				navigator.clipboard.writeText(text)
@@ -110,7 +89,6 @@
 <svelte:body on:paste={handlePaste} />
 
 <main class="container">
-	<pre>{JSON.stringify(accounts, null, 4)}</pre>
 	<div>
 		<input
 			type="text"
