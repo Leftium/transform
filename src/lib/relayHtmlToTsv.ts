@@ -4,59 +4,59 @@ import * as cheerio from 'cheerio'
 const COLUMN_MAP: Record<string, { bank: string; column: string }> = {
 	'Investor Checking ***7195': {
 		bank: 'Charles Schwab',
-		column: 'O',
+		column: 'P',
 	},
 	'Checking ***1117': {
 		bank: 'Citibank',
-		column: 'P',
+		column: 'Q',
 	},
 	'Citi® Accelerate Savings ***6821': {
 		bank: 'Citibank',
-		column: 'Q',
+		column: 'R',
 	},
 	PayPal: {
 		bank: 'Bank',
-		column: 'R',
+		column: 'S',
 	},
 	'Blue Cash Everyday® ***1004': {
 		bank: 'American Express',
-		column: 'AE',
+		column: 'AF',
 	},
 	'BoA NEA MC': {
 		bank: 'Bank',
-		column: 'AD',
+		column: 'AE',
 	},
 	'Barclays View Mastercard ***2732': {
 		bank: 'Bank',
-		column: 'AF',
+		column: 'AG',
 	},
 	'Quicksilver ***1658': {
 		bank: 'Capital One',
-		column: 'AA',
+		column: 'AB',
 	},
 	'REI Co-op Mastercard ***9770': {
 		bank: 'Capital One',
-		column: 'AB',
+		column: 'AC',
 	},
 	'Amazon Prime Rewards Visa Signature Card ***3898': {
 		bank: 'Chase',
-		column: 'AC',
+		column: 'AD',
 	},
 	'PayPal Mastercard ***4132': {
 		bank: 'Bank',
-		column: 'AG',
+		column: 'AH',
 	},
 	'SoFi Credit Card ***6550': {
 		bank: 'SoFi',
-		column: 'Z',
+		column: 'AA',
 	},
 	'WELLS FARGO AUTOGRAPH VISA® CARD ...7484 ***7484': {
 		bank: 'Wells Fargo',
-		column: 'Y',
+		column: 'Z',
 	},
 	Daniel: {
 		bank: 'Bank',
-		column: 'AK',
+		column: 'AL',
 	},
 	'Individual ***1766': {
 		bank: 'Charles Schwab',
@@ -64,23 +64,23 @@ const COLUMN_MAP: Record<string, { bank: string; column: string }> = {
 	},
 	'Roth Contributory IRA ***4487': {
 		bank: 'Charles Schwab',
-		column: 'T',
+		column: 'U',
 	},
 	'SoFi Active Investing ***8688': {
 		bank: 'SoFi',
-		column: 'V',
+		column: 'W',
 	},
 	'SoFi Crypto ***9380': {
 		bank: 'SoFi',
-		column: 'W',
+		column: 'X',
 	},
 	'Treasury Direct': {
 		bank: 'Invest',
-		column: 'S',
+		column: 'T',
 	},
 	'ROTH_IRA ***1985': {
 		bank: 'Vanguard',
-		column: 'U',
+		column: 'V',
 	},
 }
 
