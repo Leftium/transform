@@ -56,7 +56,7 @@ const COLUMN_MAP: Record<string, { bank: string; column: string }> = {
 	},
 	Daniel: {
 		bank: 'Bank',
-		column: 'AL',
+		column: 'AM',
 	},
 	'Individual ***1766': {
 		bank: 'Charles Schwab',
