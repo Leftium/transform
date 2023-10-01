@@ -1,86 +1,121 @@
 import _ from 'lodash'
 import * as cheerio from 'cheerio'
 
-const COLUMN_MAP: Record<string, { bank: string; column: string }> = {
+const COLUMN_MAP: Record<string, { institutionIcon: string; column: string; balance: string }> = {
+	'360 Checking ***0247': {
+		column: 'Q',
+		institutionIcon: 'Capital One',
+		balance: '$1,000.00',
+	},
 	'Investor Checking ***7195': {
-		bank: 'Charles Schwab',
-		column: 'P',
+		column: 'R',
+		institutionIcon: 'Charles Schwab',
+		balance: '$3,003.34',
 	},
 	'Checking ***1117': {
-		bank: 'Citibank',
-		column: 'Q',
+		column: 'S',
+		institutionIcon: 'Citibank',
+		balance: '$2,692.90',
 	},
 	'Citi® Accelerate Savings ***6821': {
-		bank: 'Citibank',
-		column: 'R',
+		column: 'T',
+		institutionIcon: 'Citibank',
+		balance: '$34,186.92',
 	},
 	PayPal: {
-		bank: 'Bank',
-		column: 'S',
+		column: 'U',
+		institutionIcon: '',
+		balance: '$0.00',
+	},
+	'Checking - 1820': {
+		column: 'V',
+		institutionIcon: '',
+		balance: '$101.04',
+	},
+	'Savings - 0426': {
+		column: 'W',
+		institutionIcon: '',
+		balance: '$13,056.39',
+	},
+	'Wise USD account': {
+		column: 'P',
+		institutionIcon: '',
+		balance: '$12,361.27',
 	},
 	'Blue Cash Everyday® ***1004': {
-		bank: 'American Express',
-		column: 'AF',
+		column: 'AD',
+		institutionIcon: 'American Express',
+		balance: '$0.00',
 	},
 	'BoA NEA MC': {
-		bank: 'Bank',
 		column: 'AE',
+		institutionIcon: '',
+		balance: '$0.00',
 	},
 	'Barclays View Mastercard ***2732': {
-		bank: 'Bank',
-		column: 'AG',
+		column: 'AF',
+		institutionIcon: '',
+		balance: '-$9.37',
 	},
 	'Quicksilver ***1658': {
-		bank: 'Capital One',
-		column: 'AB',
+		column: 'AG',
+		institutionIcon: 'Capital One',
+		balance: '$1.50',
 	},
 	'REI Co-op Mastercard ***9770': {
-		bank: 'Capital One',
-		column: 'AC',
+		column: 'AH',
+		institutionIcon: 'Capital One',
+		balance: '$0.00',
 	},
 	'Amazon Prime Rewards Visa Signature Card ***3898': {
-		bank: 'Chase',
-		column: 'AD',
+		column: 'AI',
+		institutionIcon: 'Chase',
+		balance: '$0.00',
 	},
 	'PayPal Mastercard ***4132': {
-		bank: 'Bank',
-		column: 'AH',
+		column: 'AJ',
+		institutionIcon: '',
+		balance: '$0.00',
 	},
 	'SoFi Credit Card ***6550': {
-		bank: 'SoFi',
-		column: 'AA',
+		column: 'AK',
+		institutionIcon: '',
+		balance: '-$31.46',
 	},
 	'WELLS FARGO AUTOGRAPH VISA® CARD ...7484 ***7484': {
-		bank: 'Wells Fargo',
-		column: 'Z',
-	},
-	Daniel: {
-		bank: 'Bank',
-		column: 'AM',
+		column: 'AL',
+		institutionIcon: 'Wells Fargo',
+		balance: '-$965.00',
 	},
 	'Individual ***1766': {
-		bank: 'Charles Schwab',
 		column: '',
+		institutionIcon: 'Charles Schwab',
+		balance: '$300.06',
 	},
 	'Roth Contributory IRA ***4487': {
-		bank: 'Charles Schwab',
-		column: 'U',
+		column: 'Y',
+		institutionIcon: 'Charles Schwab',
+		balance: '$69,359.96',
 	},
 	'SoFi Active Investing ***8688': {
-		bank: 'SoFi',
-		column: 'W',
+		column: 'AA',
+		institutionIcon: '',
+		balance: '$150.42',
 	},
 	'SoFi Crypto ***9380': {
-		bank: 'SoFi',
-		column: 'X',
+		column: 'AB',
+		institutionIcon: '',
+		balance: '$106.80',
 	},
 	'Treasury Direct': {
-		bank: 'Invest',
-		column: 'T',
+		column: 'X',
+		institutionIcon: '',
+		balance: '$10,820.00',
 	},
 	'ROTH_IRA ***1985': {
-		bank: 'Vanguard',
-		column: 'V',
+		column: 'Z',
+		institutionIcon: 'Vanguard',
+		balance: '$48,692.95',
 	},
 }
 
@@ -105,10 +140,14 @@ export const relayHtmlToTsv = (html: string) => {
 	const ccAccounts = cc('li:has([data-mjs="accounts-account"])')
 
 	const output: Record<string, string>[] = []
+	const data: Record<string, { institutionIcon: string; balance: string; column: string }> = {}
 
 	const accounts = _.map(ccAccounts, (account) => {
 		const ccAccount = cc(account)
-		const bank = ccAccount.find('title').text().replace('Institution icon ', '')
+		const institutionIcon = ccAccount
+			.find('title')
+			?.text()
+			.replace(/Institution icon (undefined)?/, '')
 		const title = ccAccount.find('h3:first').text().trim()
 		const balance = ccAccount.find('h3:last').text().trim()
 		const type = ccAccount.find('p:first').text().trim()
@@ -122,18 +161,27 @@ export const relayHtmlToTsv = (html: string) => {
 		const column = COLUMN_MAP[title]?.column || ''
 		const index = columnToNumber(column)
 
+		data[title] = {
+			column,
+			balance,
+			institutionIcon,
+		}
+
 		const item = {
-			bank,
 			title,
 			balance,
-			type,
 			updated,
+			type,
+			institutionIcon,
 		}
 
 		output[index] = item
 
 		return item
 	})
+
+	console.table(data)
+	console.table(output)
 
 	if (accounts.length) {
 		output[1] = {
@@ -143,7 +191,9 @@ export const relayHtmlToTsv = (html: string) => {
 		const outputText = [
 			output.map((item) => item.balance).join('\t'),
 			output.map((item) => item.updated || '').join('\t'),
-			output.map((item) => (item?.title ? `${item?.title} | ${item?.bank}` : '')).join('\t'),
+			output
+				.map((item) => (item?.title ? `${item?.title} | ${item?.institutionIcon}` : ''))
+				.join('\t'),
 		].join('\n')
 
 		return outputText
