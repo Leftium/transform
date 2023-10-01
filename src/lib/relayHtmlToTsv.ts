@@ -137,7 +137,7 @@ export const relayHtmlToTsv = (html: string) => {
 
 	if (accounts.length) {
 		output[1] = {
-			balance: new Date().toISOString().substring(0, 10),
+			balance: new Date().toLocaleDateString(),
 		}
 
 		const outputText = [
