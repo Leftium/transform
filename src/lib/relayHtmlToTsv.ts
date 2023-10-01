@@ -119,7 +119,7 @@ export const relayHtmlToTsv = (html: string) => {
 			.replace(/\s+/g, ' ')
 			.trim()
 
-		const column = COLUMN_MAP[title].column
+		const column = COLUMN_MAP[title]?.column || ''
 		const index = columnToNumber(column)
 
 		const item = {
