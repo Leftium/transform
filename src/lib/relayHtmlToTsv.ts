@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import * as cheerio from 'cheerio'
+import * as chrono from 'chrono-node'
 
 const COLUMN_ARRAY = [
 	{
@@ -152,6 +153,8 @@ const COLUMNS = _.map(COLUMN_ARRAY, (item, i, collection) => {
 	return item
 })
 
+const now = new Date()
+
 function numberToColumn(num: number) {
 	let letters = ''
 	while (num >= 0) {
@@ -197,7 +200,7 @@ export const relayHtmlToTsv = (html: string) => {
 		const updated = ccAccount
 			.find('p:last')
 			.text()
-			.replaceAll(/\n|(about )|(less than )|( ago)/gi, '')
+			.replaceAll(/\n|(about )|(less than )/gi, '')
 			.replace(/\s+/g, ' ')
 			.trim()
 
@@ -211,10 +214,15 @@ export const relayHtmlToTsv = (html: string) => {
 			institutionIcon,
 		})
 
+		const result = chrono.parse(updated)
+		const start = result[0].start.date()
+		const hoursAgo = `${((Number(now) - Number(start)) / 60 / 60 / 1000).toFixed(2)}h`
+
 		const item = {
 			title,
 			balance,
 			updated,
+			hoursAgo,
 			type,
 			institutionIcon,
 		}
@@ -247,7 +255,7 @@ export const relayHtmlToTsv = (html: string) => {
 
 		const outputText = [
 			output.map((item) => item.balance).join('\t'),
-			output.map((item) => item.updated || '').join('\t'),
+			output.map((item) => item.hoursAgo || '').join('\t'),
 			output
 				.map((item) => (item?.title ? `${item?.title} | ${item?.institutionIcon}` : ''))
 				.join('\t'),
