@@ -216,7 +216,7 @@ export const relayHtmlToTsv = (html: string) => {
 
 		const result = chrono.parse(updated)
 		const start = result[0].start.date()
-		const hoursAgo = `${((Number(now) - Number(start)) / 60 / 60 / 1000).toFixed(2)}h`
+		const hoursAgo = `${((Number(now) - Number(start)) / 60 / 60 / 1000).toFixed(0)}h`
 
 		const item = {
 			title,
@@ -255,6 +255,7 @@ export const relayHtmlToTsv = (html: string) => {
 
 		const outputText = [
 			output.map((item) => item.balance).join('\t'),
+			'',
 			output.map((item) => item.hoursAgo || '').join('\t'),
 			output
 				.map((item) => (item?.title ? `${item?.title} | ${item?.institutionIcon}` : ''))
