@@ -3,15 +3,17 @@ import * as cheerio from 'cheerio'
 import * as chrono from 'chrono-node'
 
 const COLUMN_ARRAY = [
+	// Skipped accounts.
 	{
 		title: 'Individual ***1766',
 		column: '',
 		balance: '$0.07',
 		institutionIcon: 'Charles Schwab',
 	},
+	// Output accounts start here.
 	{
 		title: 'USD account ***3304',
-		column: 'P',
+		column: 'Q',
 		balance: '$14,034.97',
 		institutionIcon: '',
 	},
@@ -61,12 +63,6 @@ const COLUMN_ARRAY = [
 		title: 'Savings - 0426',
 		column: '',
 		balance: '$1,092.21',
-		institutionIcon: '',
-	},
-	{
-		title: "John's Account ***195",
-		column: '',
-		balance: '$10,880.00',
 		institutionIcon: '',
 	},
 	{
