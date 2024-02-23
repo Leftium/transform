@@ -9,8 +9,8 @@ devDependencies:
     specifier: ^1.1.8
     version: 1.1.8
   '@picocss/pico':
-    specifier: 2.0.0-alpha1
-    version: 2.0.0-alpha1
+    specifier: 2.0.3
+    version: 2.0.3
   '@sveltejs/adapter-auto':
     specifier: ^2.0.0
     version: 2.1.0(@sveltejs/kit@1.21.0)
@@ -434,8 +434,9 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@picocss/pico@2.0.0-alpha1:
-    resolution: {integrity: sha512-DIMBG+ssQHVKEkQuwUs3mfBqNotxIH59xCmrMA8jCtm0CyRmc8p+VfMW1YeBZpeEY/WiKNw8GTefpoLBFvdpug==}
+  /@picocss/pico@2.0.3:
+    resolution: {integrity: sha512-uIWvDcZnbA+oo4mpz8LeA05huCWbDnUz8Ad2NZXTFn6SrEXBtIdKDu+/bOD4oI8hJHp6dUEEvDLim2+qqSgruQ==}
+    engines: {node: '>=18.19.0'}
     dev: true
 
   /@polka/url@1.0.0-next.21:
