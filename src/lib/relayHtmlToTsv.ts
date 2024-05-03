@@ -114,7 +114,7 @@ const COLUMN_ARRAY = [
 		institutionIcon: 'Capital One',
 	},
 	{
-		title: 'Amazon Prime Rewards Visa Signature Card ***3898',
+		title: 'Prime Visa ***3898',
 		column: '',
 		balance: '$0.00',
 		institutionIcon: 'Chase',
