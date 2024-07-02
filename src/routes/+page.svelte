@@ -11,6 +11,9 @@
 	// Bindings:
 	let inputQuery: HTMLInputElement
 	let query = ''
+
+	let usdToKrwInput: CopyButtonInput
+	let krwToUsdInput: CopyButtonInput
 	let btcToSatInput: CopyButtonInput
 	let usdToSatInput: CopyButtonInput
 	let krwToSatInput: CopyButtonInput
@@ -29,7 +32,7 @@
 			unit = 'usd'
 		} else if (query.includes('btc')) {
 			unit = 'btc'
-		} else if (query.includes('krw')) {
+		} else if (query.includes('원') || query.includes('₩') || query.includes('krw')) {
 			unit = 'krw'
 		}
 
@@ -69,12 +72,12 @@
 						copiedInput = btcToSatInput
 						break
 					case 'usd':
-						text = usdToSatInput.value || ''
-						copiedInput = usdToSatInput
+						text = usdToKrwInput.value || ''
+						copiedInput = usdToKrwInput
 						break
 					case 'krw':
-						text = krwToSatInput.value || ''
-						copiedInput = krwToSatInput
+						text = krwToUsdInput.value || ''
+						copiedInput = krwToUsdInput
 						break
 				}
 			}
@@ -103,6 +106,26 @@
 
 	<div><b>value:</b> {parsedQuery.value}</div>
 	<div><b>unit:</b> {parsedQuery.unit}</div>
+
+	<hr />
+
+	<div>
+		<CopyButtonInput
+			bind:this={usdToKrwInput}
+			label="USD&#8680;KRW"
+			value={(parsedQuery.value * data.krwPerUsd).toLocaleString()}
+			copied={copiedInput === usdToKrwInput}
+		/>
+	</div>
+
+	<div>
+		<CopyButtonInput
+			bind:this={krwToUsdInput}
+			label="KRW&#8680;USD"
+			value={(parsedQuery.value * data.usdPerKrw).toLocaleString()}
+			copied={copiedInput === krwToUsdInput}
+		/>
+	</div>
 
 	<hr />
 
