@@ -10,6 +10,7 @@
 
 	function handleClickButton() {
 		navigator.clipboard.writeText(value)
+		copied = true
 	}
 
 	function handleFocusInput(this: HTMLInputElement) {

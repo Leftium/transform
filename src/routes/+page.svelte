@@ -20,7 +20,7 @@
 	let copiedInput: CopyButtonInput | null = null
 
 	const parseQuery = (q: string) => {
-		const query = q.toLowerCase() // Normalize query.
+		const query = q.toUpperCase() // Normalize query.
 
 		let value = parseFloat(query.replace(/[^0-9.]/g, ''))
 		if (isNaN(value)) {
@@ -28,11 +28,11 @@
 		}
 
 		let unit = 'none'
-		if (query.includes('$') || query.includes('usd')) {
-			unit = 'usd'
-		} else if (query.includes('btc')) {
-			unit = 'btc'
-		} else if (query.includes('원') || query.includes('₩') || query.includes('krw')) {
+		if (query.includes('$') || query.includes('USD')) {
+			unit = 'USD'
+		} else if (query.includes('BTC')) {
+			unit = 'BTC'
+		} else if (query.includes('원') || query.includes('₩') || query.includes('KRW')) {
 			unit = 'krw'
 		}
 
@@ -67,11 +67,11 @@
 
 				await tick()
 				switch (parsedQuery.unit) {
-					case 'btc':
+					case 'BTC':
 						text = btcToSatInput.value || ''
 						copiedInput = btcToSatInput
 						break
-					case 'usd':
+					case 'USD':
 						text = usdToKrwInput.value || ''
 						copiedInput = usdToKrwInput
 						break
@@ -113,7 +113,7 @@
 		<CopyButtonInput
 			bind:this={usdToKrwInput}
 			label="USD&#8680;KRW"
-			value={(parsedQuery.value * data.krwPerUsd).toLocaleString()}
+			value={Math.round(parsedQuery.value * data.krwPerUsd).toLocaleString()}
 			copied={copiedInput === usdToKrwInput}
 		/>
 	</div>
@@ -141,7 +141,7 @@
 		<CopyButtonInput
 			bind:this={usdToSatInput}
 			label="USD&#8680;SAT"
-			value={(parsedQuery.value * data.satsPerUsd).toLocaleString()}
+			value={Math.round(parsedQuery.value * data.satsPerUsd).toLocaleString()}
 			copied={copiedInput === usdToSatInput}
 		/>
 	</div>
