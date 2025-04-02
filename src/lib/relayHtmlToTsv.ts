@@ -13,7 +13,7 @@ const COLUMN_ARRAY = [
 	// Output accounts start here.
 	{
 		title: 'USD account ***3304',
-		column: 'Q',
+		column: 'R',
 		balance: '$14,034.97',
 		institutionIcon: '',
 	},
@@ -85,7 +85,7 @@ const COLUMN_ARRAY = [
 	},
 	{
 		title: 'Blue Cash Everyday® ***1004',
-		column: 'AE',
+		column: 'AF',
 		balance: '-$29.31',
 		institutionIcon: 'American Express',
 	},
