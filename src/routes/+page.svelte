@@ -68,18 +68,16 @@
 				await tick()
 				switch (parsedQuery.unit) {
 					case 'BTC':
-						text = btcToSatInput.value || ''
 						copiedInput = btcToSatInput
 						break
 					case 'USD':
-						text = usdToKrwInput.value || ''
-						copiedInput = usdToKrwInput
+						copiedInput = usdToSatInput
 						break
 					case 'krw':
-						text = krwToUsdInput.value || ''
-						copiedInput = krwToUsdInput
+						copiedInput = krwToSatInput
 						break
 				}
+				text = copiedInput?.value || ''
 			}
 			if (text) {
 				navigator.clipboard.writeText(text)
