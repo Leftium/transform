@@ -3,102 +3,64 @@ import * as cheerio from 'cheerio'
 import * as chrono from 'chrono-node'
 
 const COLUMN_ARRAY = [
-	// Skipped accounts.
-	{
-		title: 'Individual ***1766',
-		column: '',
-		balance: '$0.07',
-		institutionIcon: 'Charles Schwab',
-	},
-	// Output accounts start here.
-	{
-		title: 'USD account ***3304',
-		column: 'R',
-		balance: '$14,034.97',
-		institutionIcon: '',
-	},
 	{
 		title: '360 Checking ***0247',
-		column: '',
-		balance: '$1,000.31',
+		column: 'N',
+		balance: '$0.00',
 		institutionIcon: 'Capital One',
 	},
 	{
 		title: '360 Performance Savings ***1671',
 		column: '',
-		balance: '$50,100.00',
+		balance: '$22.65',
 		institutionIcon: 'Capital One',
 	},
 	{
 		title: 'Investor Checking ***7195',
 		column: '',
-		balance: '$500.45',
+		balance: '$62.01',
 		institutionIcon: 'Charles Schwab',
-	},
-	{
-		title: 'Checking ***1117',
-		column: '',
-		balance: '$1,000.00',
-		institutionIcon: 'Citibank',
 	},
 	{
 		title: 'Citi® Accelerate Savings ***6821',
 		column: '',
-		balance: '$11,132.59',
+		balance: '$30,000.36',
 		institutionIcon: 'Citibank',
-	},
-	{
-		title: 'PayPal',
-		column: '',
-		balance: '$30.65',
-		institutionIcon: '',
 	},
 	{
 		title: 'Checking - 1820',
 		column: '',
-		balance: '$101.12',
+		balance: '$0.69',
 		institutionIcon: '',
 	},
 	{
 		title: 'Savings - 0426',
 		column: '',
-		balance: '$1,092.21',
+		balance: '$6.82',
 		institutionIcon: '',
 	},
 	{
-		title: 'Roth Contributory IRA ***4487',
+		title: 'USD account ***3304',
 		column: '',
-		balance: '$71,122.16',
-		institutionIcon: 'Charles Schwab',
-	},
-	{
-		title: 'ROTH_IRA ***1985',
-		column: '',
-		balance: '$52,020.20',
-		institutionIcon: 'Vanguard',
-	},
-	{
-		title: 'SoFi Active Investing ***8688',
-		column: '',
-		balance: '$303.72',
+		balance: '$4,230.05',
 		institutionIcon: '',
 	},
 	{
 		title: 'Blue Cash Everyday® ***1004',
-		column: 'AF',
-		balance: '-$29.31',
+		column: 'AC',
+		balance: '$0.00',
 		institutionIcon: 'American Express',
 	},
 	{
 		title: 'BoA NEA MC',
 		column: '',
-		balance: '-$188.49',
+		balance: '$0.00',
 		institutionIcon: '',
 	},
 	{
 		title: 'Barclays View Mastercard ***2732',
 		column: '',
-		balance: '$0.00',
+		balance: '-$13.19',
 		institutionIcon: '',
 	},
 	{
@@ -114,28 +76,52 @@ const COLUMN_ARRAY = [
 		institutionIcon: 'Capital One',
 	},
 	{
-		title: 'Prime Visa ***3898',
+		title: 'Savor ***0736',
 		column: '',
 		balance: '$0.00',
-		institutionIcon: 'Chase',
+		institutionIcon: 'Capital One',
 	},
 	{
-		title: 'PayPal Mastercard ***4132',
+		title: 'Prime Visa ***3898',
 		column: '',
-		balance: '-$0.51',
-		institutionIcon: '',
+		balance: '-$73.94',
+		institutionIcon: 'Chase',
 	},
 	{
 		title: 'SoFi Credit Card ***6550',
 		column: '',
-		balance: '-$67.12',
+		balance: '-$380.38',
 		institutionIcon: '',
 	},
 	{
-		title: 'WELLS FARGO AUTOGRAPH VISA® CARD ...7484 ***7484',
+		title: 'WELLS FARGO AUTOGRAPH VISA® CARD ...7484',
 		column: '',
-		balance: '-$1,070.98',
+		balance: '-$106.54',
 		institutionIcon: 'Wells Fargo',
+	},
+	{
+		title: 'Individual ***1766',
+		column: '-1',
+		balance: '$0.00',
+		institutionIcon: 'Charles Schwab',
+	},
+	{
+		title: 'Roth Contributory IRA ***4487',
+		column: 'AQ',
+		balance: '$97,584.86',
+		institutionIcon: 'Charles Schwab',
+	},
+	{
+		title: 'SoFi Active Investing ***8688',
+		column: '',
+		balance: '$487.65',
+		institutionIcon: '',
+	},
+	{
+		title: 'ROTH_IRA ***1985',
+		column: '',
+		balance: '$77,726.05',
+		institutionIcon: 'Vanguard',
 	},
 ]
 
@@ -223,17 +209,21 @@ export const relayHtmlToTsv = (html: string) => {
 			institutionIcon,
 		}
 
-		output[index] = item
+		if (index >= 0) {
+			output[index] = item
+		}
 
 		return item
 	})
 
+	/*
 	data.sort((a, b) => {
 		const aColumnIndex = columnToNumber(a.column)
 		const bColumnIndex = columnToNumber(b.column)
 
 		return aColumnIndex - bColumnIndex
 	})
+    */
 
 	_.forEachRight(data, (item, i, collection) => {
 		if (i > 0 && columnToNumber(item.column) - 1 === columnToNumber(collection[i - 1].column)) {
@@ -241,20 +231,25 @@ export const relayHtmlToTsv = (html: string) => {
 		}
 	})
 
+	const outputDense = Array.from({ length: output.length + 2 }, (_, i) => {
+		return output[i] ?? null
+	})
+
 	console.table(data)
 	console.table(output)
+	///console.table(outputDense)
 
 	if (accounts.length) {
-		output[1] = {
+		outputDense[1] = {
 			balance: new Date().toLocaleDateString(),
 		}
 
 		const outputText = [
-			output.map((item) => item.balance).join('\t'),
+			outputDense.map((item) => (!item ? '' : item.balance)).join('\t'),
 			'',
-			output.map((item) => item.hoursAgo || '').join('\t'),
-			output
-				.map((item) => (item?.title ? `${item?.title} | ${item?.institutionIcon}` : ''))
+			outputDense.map((item) => (!item ? '.' : item.hoursAgo)).join('\t'),
+			outputDense
+				.map((item) => (!item?.title ? '.' : `${item?.title} | ${item?.institutionIcon}`))
 				.join('\t'),
 		].join('\n')
 
